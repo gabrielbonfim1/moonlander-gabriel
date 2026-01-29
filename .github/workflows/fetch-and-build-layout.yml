@@ -6,7 +6,7 @@ on:
       layout_id:
         description: "Layout id available in URL https://configure.zsa.io/voyager/layouts/[ID_IS_HERE]/latest"
         required: true
-        default: "g7jjw"
+        default: "3VWAz"
       layout_geometry:
         description: "Keyboard type"
         type: choice
@@ -22,7 +22,7 @@ on:
           - ergodox_ez/stm32/shine
           - planck_ez
           - planck_ez/glow
-        default: voyager
+        default: moonlander/reva
 
 permissions:
   contents: write
@@ -36,6 +36,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: oryx
+
+      - name: Setup build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc-arm-none-eabi \
+            binutils-arm-none-eabi \
+            libnewlib-arm-none-eabi \
+            avr-libc \
+            gcc-avr \
+            dfu-programmer \
+            dfu-util \
+            dos2unix
 
       - name: Download the full history for the merge to work correctly
         run: git pull --unshallow
